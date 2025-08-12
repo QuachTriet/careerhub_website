@@ -1,12 +1,13 @@
 # CareerHub – Fullstack Job Recruitment Platform
 
-![GitHub repo size](https://img.shields.io/github/repo-size/yourusername/careerhub?color=blue)
-![GitHub stars](https://img.shields.io/github/stars/yourusername/careerhub?style=social)
-![License](https://img.shields.io/badge/license-MIT-green)
 ![Node.js](https://img.shields.io/badge/Node.js-v18+-green?logo=node.js)
 ![React](https://img.shields.io/badge/React-v18-blue?logo=react)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?logo=mysql)
+![Railway](https://img.shields.io/badge/Railway-Cloud-purple?logo=railway)
+![Vercel](https://img.shields.io/badge/Vercel-Deployment-black?logo=vercel)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v3.3-blue?logo=tailwind-css)
 
-A **modern fullstack web application** for **job posting**, **candidate management**, and **recruitment analytics**.  
+A **modern fullstack web application** for **job posting**, **jobseeker management**, and **recruitment analytics**.  
 Built with **Node.js**, **Express**, **React.js**, **Tailwind CSS**, and **MySQL Database**.
 
 ---
