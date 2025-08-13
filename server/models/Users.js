@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
-const sequelize = require('../config/database');
+const sequelize = require('../configs/database');
 
 class Users extends Model { }
 
@@ -24,6 +24,14 @@ Users.init({
     fullName: {
         type: DataTypes.STRING,
         allowNull: false,
+    }, 
+    phoneNumber: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            len: [10, 12],
+            isNumeric: true
+        }
     },
     role: {
         type: DataTypes.ENUM('admin', 'employer', 'jobseeker'),
