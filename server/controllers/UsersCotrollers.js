@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const Users = require('./models/Users');
+const Users = require('../models/Users');
 const validator = require('validator');
 require("dotenv").config();
 
@@ -46,7 +46,7 @@ exports.login = async (req, res) => {
 // Register controller
 exports.register = async (req, res) => {
     try {
-        const { username, password, email, role, fullName } = req.body;
+        const { username, password, email, role, fullName, phoneNumber } = req.body;
 
         const user = await Users.findOne({ where: { username } });
         if (user) {
@@ -86,6 +86,7 @@ exports.register = async (req, res) => {
             email,
             role: role || "jobseeker",
             fullName,
+            phoneNumber,
         });
 
         return res.status(201).json({
@@ -93,6 +94,56 @@ exports.register = async (req, res) => {
         });
     } catch (error) {
         console.error("Register error:", error);
+        return res.status(500).json({
+            message: "Server error, please try again later!"
+        });
+    }
+};
+
+
+// Get Profile
+exports.getProfile = async (req, res) => {
+    try {
+        const userId = req.Users.id;
+        if (!userId) return res.status(404).json({ errors: { user_id: ["Can't get a user id!"] } });
+
+        const user = await Users.findByPk(userId, {
+            attributes: ['fullName', 'email', 'phoneNumber']
+        });
+
+        return res.status(200).json({ profile: user });
+
+    } catch (error) {
+        console.error("Get Profile error:", error);
+        return res.status(500).json({
+            message: "Server error, please try again later!"
+        });
+    }
+}
+
+// Update Profile
+exports.updateProfile = async (req, res) => {
+    try {
+        console.log("User in req:", req.Users);
+        console.log("Body received:", req.body);
+        const userId = req.Users.id;
+        if (!userId) return res.status(404).json({ errors: { user_id: ["Can't get a user id!"] } })
+
+        const { fullName, phoneNumber } = req.body;
+
+        await Users.update({
+            fullName: fullName,
+            phoneNumber: phoneNumber,
+        }, { where: { id: userId } });
+
+        const user = await Users.findByPk(userId, {
+            attributes: ['fullName', 'email', 'phoneNumber']
+        });
+
+        return res.status(200).json({ profile: user });
+
+    } catch (error) {
+        console.error("Update Profile error:", error);
         return res.status(500).json({
             message: "Server error, please try again later!"
         });
