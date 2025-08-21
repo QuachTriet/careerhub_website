@@ -1,53 +1,45 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
-const sequelize = require('../configs/database');
+const { Model, DataTypes } = require("sequelize");
+const sequelize = require("../configs/database");
 
-class Users extends Model { }
+class User extends Model {};
 
-Users.init({
+User.init({
     username: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(150),
         allowNull: false,
-        unique: true,
-    },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        unique: true
     },
     email: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(255),
         allowNull: false,
-        unique: true,
-        validate: {
-            isEmail: true,
-        },
+        unique: true
     },
-    fullName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    }, 
-    phoneNumber: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            len: [10, 12],
-            isNumeric: true
-        }
+    password: {
+        type: DataTypes.STRING(255),
+        allowNull: false
+    },
+    full_name: {
+        type: DataTypes.STRING(255),
+        allowNull: true
     },
     role: {
-        type: DataTypes.ENUM('admin', 'employer', 'jobseeker'),
+        type: DataTypes.ENUM('jobseeker', 'employer', 'admin'),
         allowNull: false,
-        defaultValue: 'jobseeker',
+        defaultValue: 'jobseeker'
     },
-    isActive: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: true,
+    phone: {
+        type: DataTypes.STRING(20),
+        allowNull: true
     },
+    avatar: {
+        type: DataTypes.STRING(255),
+        allowNull: true
+    }
 }, {
     sequelize,
-    modelName: 'Users',
-    tableName: 'users',
-    timestamps: true,
+    modelName: "Users",
+    tableName: "users",
+    timestamps: true
 });
 
-module.exports = Users;
+module.exports = User;

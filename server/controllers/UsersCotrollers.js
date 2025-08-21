@@ -108,7 +108,7 @@ exports.getProfile = async (req, res) => {
         if (!userId) return res.status(404).json({ errors: { user_id: ["Can't get a user id!"] } });
 
         const user = await Users.findByPk(userId, {
-            attributes: ['fullName', 'email', 'phoneNumber']
+            attributes: ['fullName', 'email', 'phoneNumber', 'role']
         });
 
         return res.status(200).json({ profile: user });
@@ -137,7 +137,7 @@ exports.updateProfile = async (req, res) => {
         }, { where: { id: userId } });
 
         const user = await Users.findByPk(userId, {
-            attributes: ['fullName', 'email', 'phoneNumber']
+            attributes: ['fullName', 'email', 'phoneNumber', 'role']
         });
 
         return res.status(200).json({ profile: user });
