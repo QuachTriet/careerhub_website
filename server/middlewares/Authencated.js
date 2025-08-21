@@ -6,7 +6,7 @@ const authenticated = async (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(" ")[1];
 
-    if (!token) return res.status(404).json({ errors: { token: ["Can't found jwt token user!"] } });
+    if (!token) return res.status(401).json({ errors: { token: ["Can't found jwt token user!"] } });
 
     try {
         const decode = jwt.verify(token, process.env.JWT_SECRET);

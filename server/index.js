@@ -1,9 +1,11 @@
 require('dotenv').config();
+const cors = require('cors');
 const express = require('express');
 const app = express();
 const db = require('./configs/database');
-const userAPIs = require('./views/UsersViews')
+const userAPIs = require('./views/UsersViews');
 
+app.use(cors());
 app.use(express.json());
 app.use('/api', userAPIs);
 
