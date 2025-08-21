@@ -5,10 +5,10 @@
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?logo=mysql)
 ![Railway](https://img.shields.io/badge/Railway-Cloud-purple?logo=railway)
 ![Vercel](https://img.shields.io/badge/Vercel-Deployment-black?logo=vercel)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v3.3-blue?logo=tailwind-css)
+![CSS](https://img.shields.io/badge/-CSS-blue?logo=css3&logoColor=white)
 
 A **modern fullstack web application** for **job posting**, **jobseeker management**, and **recruitment analytics**.  
-Built with **Node.js**, **Express**, **React.js**, **Tailwind CSS**, and **MySQL Database**.
+Built with **Node.js**, **Express**, **React.js**, **CSS**, and **MySQL Database**.
 
 ---
 
