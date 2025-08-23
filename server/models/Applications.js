@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../configs/database");
-const User = require("./User");
+const Users = require("./Users");
 const Jobs = require("./Jobs");
 
 class Application extends Model { };
@@ -18,7 +18,7 @@ Application.init({
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: User,
+            model: Users,
             key: 'id'
         }
     },
@@ -42,8 +42,8 @@ Application.init({
 });
 
 // Quan hệ
-User.hasMany(Application, { foreignKey: 'jobseeker_id', as: 'applications' });
-Application.belongsTo(User, { foreignKey: 'jobseeker_id', as: 'jobseeker' });
+Users.hasMany(Application, { foreignKey: 'jobseeker_id', as: 'applications' });
+Application.belongsTo(Users, { foreignKey: 'jobseeker_id', as: 'jobseeker' });
 
 Jobs.hasMany(Application, { foreignKey: 'job_id', as: 'applications' });
 Application.belongsTo(Jobs, { foreignKey: 'job_id', as: 'job' });

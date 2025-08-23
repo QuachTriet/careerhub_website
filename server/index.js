@@ -5,11 +5,13 @@ const app = express();
 const db = require('./configs/database');
 const userAPIs = require('./views/UsersViews');
 const jobAPIs = require('./views/JobsViews');
+const applicationAPIs = require('./views/ApplicationsViews')
 
 app.use(cors());
 app.use(express.json());
 app.use('/api/users', userAPIs);
 app.use('/api/jobs', jobAPIs);
+app.use('/api/applications', applicationAPIs);
 
 app.get('/', (req, res) => {
   res.send('Hello Express!');
