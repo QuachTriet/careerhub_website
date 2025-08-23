@@ -44,9 +44,17 @@ exports.getList = async (req, res) => {
             whereValues.salary_min = { [Op.lte]: salary_max };
         }
 
+        if (!page || isNaN(page) || parseInt(page) < 1) {
+            return res.status(400).json({
+                error: "Missing or invalid 'page' query parameter"
+            });
+        }
+
         const { count, rows } = await Jobs.findAndCountAll({
             limit: limit,
             offset: offset,
+            include: { model: Users, as: "employer", attributes: ['fullname', 'phoneNumber']},
+            attributes: {exclude: ['employer_id', 'createdAt', 'updatedAt']},
             order: [['createdAt', 'DESC']],
             where: whereValues,
         });
@@ -60,7 +68,7 @@ exports.getList = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Login error:", error);
+        console.error("Job list error:", error);
         return res.status(500).json({
             message: "Server error, please try again later!"
         });
@@ -70,9 +78,9 @@ exports.getList = async (req, res) => {
 //Create Job
 exports.createJob = async (req, res) => {
     try {
-        const employer_user = req.Users;
-        if (!employer_user.id) return res.status(401).json({ errors: { user_id: ["Unauthorized, user id not found!"] } });
-        if (employer_user.role != "employer") return res.status(403).json({ errors: { user_role: ["You can't create a job!"] } });
+        const user = req.Users;
+        if (!user.id) return res.status(401).json({ errors: { user_id: ["Unauthorized, user id not found!"] } });
+        if (user.role != "employer") return res.status(403).json({ errors: { user_role: ["You can't create a job!"] } });
         const { title, description, requirements, location, salary_min, salary_max, type, level } = req.body;
 
         const newjob = await Jobs.create({
@@ -84,7 +92,7 @@ exports.createJob = async (req, res) => {
             salary_max,
             type,
             level,
-            employer_id: employer_user.id,
+            employer_id: user.id,
         });
 
         return res.status(201).json({
@@ -93,7 +101,7 @@ exports.createJob = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Login error:", error);
+        console.error("Create job error:", error);
         return res.status(500).json({
             message: "Server error, please try again later!"
         });
@@ -103,9 +111,9 @@ exports.createJob = async (req, res) => {
 //Update Job
 exports.updateJob = async (req, res) => {
     try {
-        const employer_user = req.Users;
-        if (!employer_user.id) return res.status(401).json({ errors: { user_id: ["Unauthorized, user id not found!"] } });
-        if (employer_user.role != "employer") return res.status(403).json({ errors: { user_role: ["You can't create a job!"] } });
+        const user = req.Users;
+        if (!user.id) return res.status(401).json({ errors: { user_id: ["Unauthorized, user id not found!"] } });
+        if (user.role != "employer") return res.status(403).json({ errors: { user_role: ["You can't create a job!"] } });
         const { title, description, requirements, location, salary_min, salary_max, type, level } = req.body;
 
         await Jobs.update({
@@ -118,7 +126,7 @@ exports.updateJob = async (req, res) => {
             type,
             level
         },
-            { where: { id: req.params.id, employer_id: employer_user.id } }
+            { where: { id: req.params.id, employer_id: user.id } }
         );
 
         const updateJob = await Jobs.findByPk(req.params.id, {
@@ -130,7 +138,7 @@ exports.updateJob = async (req, res) => {
         })
 
     } catch (error) {
-        console.error("Login error:", error);
+        console.error("Update error:", error);
         return res.status(500).json({
             message: "Server error, please try again later!"
         });
@@ -140,18 +148,18 @@ exports.updateJob = async (req, res) => {
 //Delete Job
 exports.deteleJob = async (req, res) => {
     try {
-        const employer_user = req.Users;
-        if (!employer_user.id) return res.status(401).json({ errors: { user_id: ["Unauthorized, user id not found!"] } });
+        const user = req.Users;
+        if (!user.id) return res.status(401).json({ errors: { user_id: ["Unauthorized, user id not found!"] } });
 
         const job = await Jobs.findOne({ where: { id: req.params.id } });
         if (!job) return res.status(404).json({ errors: { job: ["This job not found! "] } });
-        if (employer_user.id !== job.employer_id) return res.status(403).json({ errors: { user: ["Authorized! You can't deleted this job!"] } })
+        if (user.id !== job.employer_id) return res.status(403).json({ errors: { user: ["Authorized! You can't deleted this job!"] } })
 
         await job.destroy();
         return res.status(200).json({ message: "Job deleted successfully!" });
 
     } catch (error) {
-        console.error("Login error:", error);
+        console.error("Delete job error:", error);
         return res.status(500).json({
             message: "Server error, please try again later!"
         });
@@ -179,7 +187,7 @@ exports.getJob = async (req, res) => {
         })
 
     } catch (error) {
-        console.error("Login error:", error);
+        console.error("Get job error:", error);
         return res.status(500).json({
             message: "Server error, please try again later!"
         });
