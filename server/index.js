@@ -4,12 +4,14 @@ const express = require('express');
 const app = express();
 const db = require('./configs/database');
 const userAPIs = require('./views/UsersViews');
+const jobAPIs = require('./views/JobsViews');
 
 app.use(cors());
 app.use(express.json());
-app.use('/api', userAPIs);
+app.use('/api/users', userAPIs);
+app.use('/api/jobs', jobAPIs);
 
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
   res.send('Hello Express!');
 });
 
@@ -18,7 +20,8 @@ app.get('/api', (req, res) => {
     await db.authenticate();
     console.log('Database connected!');
 
-    await db.sync({ alter: true });
+    // await db.sync({ alter: true }); chỉ dùng khi thay đổi model
+    await db.sync(); 
     console.log('Database synced!');
 
     app.listen(3000, () => {

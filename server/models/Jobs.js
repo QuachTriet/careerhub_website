@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../configs/database");
-const User = require("./User"); // import User để FK
+const Users = require("./Users");
 
 class Jobs extends Model { };
 
@@ -43,7 +43,7 @@ Jobs.init({
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: User,
+            model: Users,
             key: 'id'
         }
     }
@@ -54,7 +54,7 @@ Jobs.init({
     timestamps: true,
 });
 
-User.hasMany(Jobs, { foreignKey: 'employer_id', as: 'jobs' });
-Jobs.belongsTo(User, { foreignKey: 'employer_id', as: 'employer' });
+Users.hasMany(Jobs, { foreignKey: 'employer_id', as: 'jobs' });
+Jobs.belongsTo(Users, { foreignKey: 'employer_id', as: 'employer' });
 
 module.exports = Jobs;

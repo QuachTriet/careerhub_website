@@ -18,7 +18,7 @@ User.init({
         type: DataTypes.STRING(255),
         allowNull: false
     },
-    full_name: {
+    fullName: {
         type: DataTypes.STRING(255),
         allowNull: true
     },
@@ -27,7 +27,7 @@ User.init({
         allowNull: false,
         defaultValue: 'jobseeker'
     },
-    phone: {
+    phoneNumber: {
         type: DataTypes.STRING(20),
         allowNull: true
     },
