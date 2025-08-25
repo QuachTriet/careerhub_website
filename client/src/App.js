@@ -1,11 +1,39 @@
-import logo from './logo.svg';
 import './App.css';
-import "./static/style.css";
-import Register from './components/Auth/Register';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Header from './components/Layout/Header';
+import Footer from './components/Layout/Footer';
+
 
 function App() {
   return (
-    <Register />
+    <BrowserRouter>
+      <Header />
+      <main>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+        <p>13123123</p>
+      </main>
+      <Footer />
+    </BrowserRouter>
   );
 }
 
